@@ -1,0 +1,35 @@
+security:
+  password_hashers:
+    App\Entity\Utilisateur:
+      algorithm: bcrypt
+
+  providers:
+    app_user_provider:
+      entity:
+        class: App\Entity\Utilisateur
+        property: email # Le champ pour rechercher l'utilisateur
+
+  firewalls:
+    main:
+      pattern: ^/
+      lazy: true
+      form_login:
+        login_path: login
+        check_path: login
+        default_target_path: home
+      logout:
+        path: logout
+        target: /
+      remember_me: true
+      stateless: false
+
+  access_control:
+    # Process these specific routes first
+    - { path: ^/login$, roles: PUBLIC_ACCESS }
+    - { path: ^/logout$, roles: PUBLIC_ACCESS }
+    - { path: ^/inscription$, roles: PUBLIC_ACCESS }
+    # Then process admin routes
+    - { path: ^/admin, roles: ROLE_ADMIN }
+    - { path: ^/utilisateur, roles: ROLE_ADMIN }
+    # Finally the catch-all rule
+    - { path: ^/, roles: [ROLE_GESTIONNAIRE, ROLE_ADMIN] }

@@ -1,0 +1,5 @@
+From: emilo@example.com
+To: recipient@example.com
+Subject: Test email via curl
+
+Hello, this is a test email sent via curl to MailHog.

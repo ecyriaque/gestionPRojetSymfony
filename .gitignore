@@ -1,0 +1,48 @@
+# Fichiers de données
+/data/
+/data/mysql/
+/data/elasticsearch/
+/data/kibana/
+
+# Logs
+/logs/
+/logs/apache2/
+/logs/mysql/
+/logs/xdebug/
+
+# Configurations spécifiques à l'environnement
+/.env
+/.env.local
+/.env.*.local
+
+# Fichiers de développement
+/.idea/
+/.vscode/
+*.code-workspace
+.DS_Store
+Thumbs.db
+
+# Dépendances et modules installés
+/vendor/
+/node_modules/
+/www/vendor/
+/www/node_modules/
+
+# Fichiers temporaires
+*.tmp
+*.swp
+*.swo
+.phpunit.result.cache
+
+# Fichiers générés par l'application
+/www/var/cache/
+/www/var/log/
+/www/public/build/
+
+# Fichiers de compilation
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so 

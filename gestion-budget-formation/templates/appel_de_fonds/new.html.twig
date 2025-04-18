@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un nouvel Appel de Fonds{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Créer un nouvel Appel de Fonds</h1>
+
+        {{ include('appel_de_fonds/_form.html.twig') }}
+
+        <a href="{{ path('app_appel_de_fonds_index') }}" class="btn btn-secondary">Retour à la liste</a>
+    </div>
+{% endblock %}

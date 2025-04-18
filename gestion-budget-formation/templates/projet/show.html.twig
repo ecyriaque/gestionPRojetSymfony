@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Projet{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="mb-4">Détails du Projet : <span class="text-primary">{{ projet.nom }}</span></h1>
+
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Informations sur le projet</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th scope="row" class="bg-light">Projet ID</th>
+                            <td>{{ projet.projetid }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="bg-light">Nom</th>
+                            <td>{{ projet.nom }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="bg-light">Budget Initial</th>
+                            <td>{{ projet.budgetinitial }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="bg-light">Seuil d'Alerte</th>
+                            <td>{{ projet.seuilalerte }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <a href="{{ path('app_projet_index') }}" class="btn btn-secondary btn-sm">Retour à la liste</a>
+            <a href="{{ path('app_projet_edit', {'projetid': projet.projetid}) }}" class="btn btn-warning btn-sm">Modifier</a>
+        </div>
+
+        <div class="mt-4">
+            {{ include('projet/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

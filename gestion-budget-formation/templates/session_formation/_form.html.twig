@@ -1,0 +1,27 @@
+{{ form_start(form, {'attr': {'class': 'form'}}) }}
+    <div class="mb-3">
+        {{ form_label(form.datedebut, 'Date de début', {'attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.datedebut, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.datedebut, {'attr': {'class': 'text-danger'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.datefin, 'Date de fin', {'attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.datefin, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.datefin, {'attr': {'class': 'text-danger'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.couttotal, 'Coût total', {'attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.couttotal, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.couttotal, {'attr': {'class': 'text-danger'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.projet, 'Choisir un projet', {'attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.projet, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.projet, {'attr': {'class': 'text-danger'}}) }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

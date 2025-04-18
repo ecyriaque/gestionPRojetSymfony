@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une nouvelle session de formation{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Créer une nouvelle session de formation</h1>
+
+        {{ include('session_formation/_form.html.twig') }}
+
+        <a href="{{ path('app_session_formation_index') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
+    </div>
+{% endblock %}

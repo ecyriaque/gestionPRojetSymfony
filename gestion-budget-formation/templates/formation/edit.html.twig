@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la formation{% endblock %}
+
+{% block body %}
+    <div class="page-container">
+        <div class="mb-4">
+            <h1 class="mb-0">Modifier la formation</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+                    <li class="breadcrumb-item"><a href="{{ path('app_formation_index') }}">Formations</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Modifier</li>
+                </ol>
+            </nav>
+        </div>
+        
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible fade show">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        
+        {{ include('formation/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+        
+        <div class="mt-3 d-flex justify-content-center">
+            {{ include('formation/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %} 

@@ -1,0 +1,156 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Utilisateurs{% endblock %}
+
+{% block body %}
+    <div class="page-container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="mb-0">Gestion des Utilisateurs</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Utilisateurs</li>
+                    </ol>
+                </nav>
+            </div>
+            <a href="{{ path('app_utilisateur_new') }}" class="btn btn-primary">
+                <i class="fas fa-plus me-1"></i> Ajouter un utilisateur
+            </a>
+        </div>
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible fade show">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <table class="table table-striped" id="utilisateurs-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Rôle</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for utilisateur in utilisateurs %}
+                        <tr>
+                            <td>{{ utilisateur.utilisateurid }}</td>
+                            <td>
+                                <span class="fw-medium">{{ utilisateur.nom }}</span>
+                            </td>
+                            <td>{{ utilisateur.email }}</td>
+                            <td>
+                                {% if utilisateur.role == 'Admin' %}
+                                    <span class="badge bg-primary">{{ utilisateur.role }}</span>
+                                {% else %}
+                                    <span class="badge bg-info">{{ utilisateur.role }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a href="{{ path('app_utilisateur_show', {'utilisateurid': utilisateur.utilisateurid}) }}" class="btn btn-sm btn-info" data-bs-toggle="tooltip" title="Voir les détails">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ path('app_utilisateur_edit', {'utilisateurid': utilisateur.utilisateurid}) }}" class="btn btn-sm btn-warning" data-bs-toggle="tooltip" title="Modifier">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center py-4">
+                                <div class="text-muted">
+                                    <i class="fas fa-info-circle me-1"></i> Aucun utilisateur trouvé
+                                </div>
+                                <div class="mt-3">
+                                    <a href="{{ path('app_utilisateur_new') }}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-plus me-1"></i> Ajouter un utilisateur
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialiser les tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+            
+            // Vérifier et corriger le problème de compte de colonnes
+            const table = document.getElementById('utilisateurs-table');
+            if (table) {
+                const headerCols = table.querySelectorAll('thead th').length;
+                const rows = table.querySelectorAll('tbody tr');
+                
+                rows.forEach(row => {
+                    // Ignorer les lignes vides ou lignes "aucun résultat"
+                    if (row.querySelector('[colspan]')) return;
+                    
+                    const cols = row.querySelectorAll('td').length;
+                    
+                    // Si le nombre de colonnes dans cette ligne ne correspond pas à l'en-tête
+                    if (cols !== headerCols) {
+                        console.warn(`Ligne avec ${cols} colonnes trouvée, mais l'en-tête en a ${headerCols}. Correction en cours...`);
+                        
+                        // Si trop peu de colonnes, ajouter les colonnes manquantes
+                        if (cols < headerCols) {
+                            for (let i = cols; i < headerCols; i++) {
+                                const td = document.createElement('td');
+                                row.appendChild(td);
+                            }
+                        }
+                        // Si trop de colonnes, supprimer les colonnes excédentaires
+                        else if (cols > headerCols) {
+                            for (let i = headerCols; i < cols; i++) {
+                                const lastCell = row.querySelector('td:last-child');
+                                if (lastCell) row.removeChild(lastCell);
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Initialiser DataTables après correction
+            setTimeout(() => {
+                if ($.fn.DataTable) {
+                    try {
+                        $('#utilisateurs-table').DataTable({
+                            language: {
+                                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/fr-FR.json'
+                            },
+                            responsive: true,
+                            order: [[0, 'desc']],
+                            columnDefs: [
+                                { orderable: false, targets: 4 } // Désactiver le tri sur la colonne Actions
+                            ]
+                        });
+                        console.log('DataTables initialisé avec succès');
+                    } catch (error) {
+                        console.error('Erreur lors de l\'initialisation de DataTables:', error);
+                    }
+                }
+            }, 100); // Petit délai pour s'assurer que la correction est appliquée avant initialisation
+        });
+    </script>
+{% endblock %}

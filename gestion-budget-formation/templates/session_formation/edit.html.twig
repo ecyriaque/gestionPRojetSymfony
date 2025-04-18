@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier une Session de Formation{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Modifier une Session de Formation</h1>
+
+        <!-- Formulaire de modification de la session de formation -->
+        <div class="card">
+            <div class="card-body">
+                {{ include('session_formation/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+                   <a href="{{ path('app_session_formation_index') }}" class="btn btn-secondary">Retour à la liste</a>
+        </div>
+
+
+ 
+    </div>
+{% endblock %}

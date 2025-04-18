@@ -1,0 +1,23 @@
+{{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_label(form.nom, 'Nom') }}
+        {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.email, 'Email') }}
+        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.motdepasse, 'Mot de passe') }}
+        {{ form_widget(form.motdepasse, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.role, 'Rôle') }}
+        {{ form_widget(form.role, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+{{ form_end(form) }}

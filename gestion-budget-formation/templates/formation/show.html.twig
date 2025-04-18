@@ -1,0 +1,145 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de la formation{% endblock %}
+
+{% block body %}
+    <div class="page-container">
+        <div class="mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="mb-0">Détails de la formation</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('app_formation_index') }}">Formations</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Détails</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="btn-group" role="group">
+                    <a href="{{ path('app_formation_index') }}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Retour à la liste
+                    </a>
+                    <a href="{{ path('app_formation_edit', {'formationid': formation.formationid}) }}" class="btn btn-warning">
+                        <i class="fas fa-edit me-1"></i> Modifier
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-info-circle me-2"></i> Informations générales
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <label class="text-muted mb-1">ID formation</label>
+                                    <p class="fw-bold">{{ formation.formationid }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <label class="text-muted mb-1">Date de formation</label>
+                                    <p class="fw-bold">
+                                        <i class="fas fa-calendar-day me-1 text-primary"></i>
+                                        {{ formation.dateformation|date('d/m/Y') }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="detail-item">
+                                    <label class="text-muted mb-1">Organisme</label>
+                                    <p class="fw-bold">
+                                        <i class="fas fa-building me-1 text-primary"></i>
+                                        {{ formation.organisme }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-calendar-alt me-2"></i> Session de formation
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="detail-item">
+                                    <label class="text-muted mb-1">Projet associé</label>
+                                    <p class="fw-bold">
+                                        <i class="fas fa-project-diagram me-1 text-primary"></i>
+                                        {{ formation.session.projet.nom }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <label class="text-muted mb-1">Date de début</label>
+                                    <p class="fw-bold">{{ formation.session.datedebut|date('d/m/Y') }}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="detail-item">
+                                    <label class="text-muted mb-1">Date de fin</label>
+                                    <p class="fw-bold">{{ formation.session.datefin|date('d/m/Y') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-euro-sign me-2"></i> Informations financières
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-4">
+                    <div class="col-md-3">
+                        <div class="text-center p-3 rounded bg-light">
+                            <div class="text-muted small mb-1">Coût HT</div>
+                            <h3 class="mb-0 text-primary">{{ formation.couht|number_format(2, ',', ' ') }} €</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center p-3 rounded bg-light">
+                            <div class="text-muted small mb-1">Taux TVA</div>
+                            <h3 class="mb-0 text-warning">{{ formation.tauxtva|number_format(2, ',', ' ') }} %</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center p-3 rounded bg-light">
+                            <div class="text-muted small mb-1">Montant TVA</div>
+                            <h3 class="mb-0 text-info">{{ (formation.couht * formation.tauxtva / 100)|number_format(2, ',', ' ') }} €</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center p-3 rounded bg-primary">
+                            <div class="text-white small mb-1">Coût TTC</div>
+                            <h3 class="mb-0 text-white">{{ (formation.couht * (1 + formation.tauxtva / 100))|number_format(2, ',', ' ') }} €</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="d-flex justify-content-center mt-4">
+            {{ include('formation/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %} 

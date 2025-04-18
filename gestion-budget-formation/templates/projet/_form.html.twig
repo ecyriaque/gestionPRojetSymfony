@@ -1,0 +1,50 @@
+{% block body %}
+<script>
+    document.querySelector('input[name="projet[budgetinitial]"]').addEventListener('input', function(event) {
+        if (isNaN(event.target.value)) {
+            event.target.setCustomValidity('Veuillez entrer un nombre valide');
+        } else {
+            event.target.setCustomValidity('');
+        }
+    });
+</script>
+
+    {{ form_start(form, {'attr': {'class': 'form'}}) }}
+    
+    <div class="mb-3">
+        {{ form_label(form.nom, 'Nom', {'attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.nom, {'attr': {'class': 'text-danger'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.budgetinitial, 'Budget Initial', {'attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.budgetinitial, {
+            'attr': {'class': 'form-control', 'step': '0.01', 'min': '0'}
+        }) }}
+        {{ form_errors(form.budgetinitial, {'attr': {'class': 'text-danger'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.seuilalerte, 'Seuil d\'alerte', {'attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.seuilalerte, {
+            'attr': {'class': 'form-control', 'step': '0.01', 'min': '0'}
+        }) }}
+        {{ form_errors(form.seuilalerte, {'attr': {'class': 'text-danger'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.client, 'Client', {'attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.client, {'attr': {'class': 'form-select'}}) }}
+        {{ form_errors(form.client, {'attr': {'class': 'text-danger'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.referent, 'Référent', {'attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.referent, {'attr': {'class': 'form-select'}}) }}
+        {{ form_errors(form.referent, {'attr': {'class': 'text-danger'}}) }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+{% endblock %}

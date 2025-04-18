@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de l'utilisateur{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Détails de l'utilisateur</h1>
+
+        <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <th scope="row">Utilisateur ID</th>
+                    <td>{{ utilisateur.utilisateurid }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Nom</th>
+                    <td>{{ utilisateur.nom }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Email</th>
+                    <td>{{ utilisateur.email }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Rôle</th>
+                    <td>{{ utilisateur.role }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{{ path('app_utilisateur_index') }}" class="btn btn-secondary">Retour à la liste</a>
+            <a href="{{ path('app_utilisateur_edit', {'utilisateurid': utilisateur.utilisateurid}) }}" class="btn btn-warning">Modifier</a>
+        </div>
+
+        <div class="mt-4">
+            {{ include('utilisateur/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

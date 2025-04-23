@@ -25,7 +25,7 @@ class Client
     #[ORM\Column(type: "text")]
     private ?string $adresse = null;
 
-    #[ORM\Column(type: "decimal", precision: 2, scale: 2)]
+    #[ORM\Column(type: "decimal", precision: 5, scale: 2)]
     private ?string $commission = null;
 
     #[ORM\Column(length: 255)]

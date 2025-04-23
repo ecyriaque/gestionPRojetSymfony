@@ -21,7 +21,7 @@ class Formation
     private ?string $organisme = null;
 
     #[ORM\Column(type: 'decimal', precision: 15, scale: 2)]
-    private ?string $couht = null;
+    private ?string $cout = null;
 
     #[ORM\Column(type: 'decimal', precision: 5, scale: 2)]
     private ?string $tauxtva = null;
@@ -67,15 +67,14 @@ class Formation
         return $this;
     }
 
-    public function getCouht(): ?string
+    public function getCout(): ?string
     {
-        return $this->couht;
+        return $this->cout;
     }
 
-    public function setCouht(string $couht): self
+    public function setCout(string $cout): self
     {
-        $this->couht = $couht;
-
+        $this->cout = $cout;
         return $this;
     }
 

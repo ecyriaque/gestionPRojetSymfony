@@ -20,7 +20,8 @@ class Formation
     #[ORM\Column(length: 255)]
     private ?string $organisme = null;
 
-    #[ORM\Column(type: 'decimal', precision: 15, scale: 2)]
+
+    #[ORM\Column(name: 'couht', type: 'decimal', precision: 15, scale: 2)]
     private ?string $cout = null;
 
     #[ORM\Column(type: 'decimal', precision: 5, scale: 2)]
@@ -75,6 +76,20 @@ class Formation
     public function setCout(string $cout): self
     {
         $this->cout = $cout;
+        return $this;
+    }
+
+
+    public function getCouht(): ?string
+    {
+        return $this->cout;
+    }
+
+
+    public function setCouht(string $couht): self
+    {
+        $this->cout = $couht;
+
         return $this;
     }
 

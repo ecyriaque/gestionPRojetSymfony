@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Récapitulatif session</title>
+
+        <style>
+            html { background-color: grey; margin: 0px; }
+            body {
+                position: relative;
+                background-color: white;
+                width: 210mm;
+                height: 297mm;
+                margin: auto;
+            }
+            .container { position: absolute; width: 180mm; padding: 10mm 15mm; top: 0; }
+            .footer { position: absolute; width: 180mm; padding: 5mm 15mm; bottom: 0; text-align: center; }
+            .row { width: 100%; }
+            .col-8 { width: 66.6666666666667% }
+            .col-12 { width: 100% }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <img src="{{ logo }}" height="75">
+                        </td>
+                        <td>
+                            <h1>Récapitulatif session</h1>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="row">
+                <div class="col-8">
+                    <p>
+                        8 allée des peupliers - 94100 Créteil<br>
+                        SIRET 890 234 359 00024<br>
+                        TVA FR91890234359<br>
+                        Tel : +33 (0) 1 23 45 67 89
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="row">
+                <div class="col-12">
+                    <hr>
+                    LES FORGES DU WEB - SARL au capitale de 100 000 € - RCS PONTOISE 890 234 359<br>
+                    8 allée des peupliers - 94100 Créteil - Tel : +33 (0) 1 23 45 67 89 - contact@lesforgesduweb.fr
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

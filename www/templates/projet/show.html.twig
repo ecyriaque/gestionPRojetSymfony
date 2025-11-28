@@ -34,10 +34,45 @@
             </div>
         </div>
 
-        <div class="mt-4">
-            <a href="{{ path('app_projet_index') }}" class="btn btn-secondary btn-sm">Retour à la liste</a>
-            <a href="{{ path('app_projet_edit', {'projetid': projet.projetid}) }}" class="btn btn-warning btn-sm">Modifier</a>
-        </div>
+                <div class="mt-4">
+                        <a href="{{ path('app_projet_index') }}" class="btn btn-secondary btn-sm">Retour à la liste</a>
+                        <a href="{{ path('app_projet_edit', {'projetid': projet.projetid}) }}" class="btn btn-warning btn-sm">Modifier</a>
+
+                        <form id="send-recap-form" method="post" action="{{ path('app_project_send_recap', {'projetid': projet.projetid}) }}" style="display:inline">
+                                <input type="hidden" name="_token" value="{{ csrf_token('send_recap' ~ projet.projetid) }}">
+                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#confirmSendRecap">Envoyer rapport</button>
+
+                        <div class="modal fade" id="confirmSendRecap" tabindex="-1" aria-labelledby="confirmSendRecapLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmSendRecapLabel">Confirmer l'envoi</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Voulez-vous envoyer le récapitulatif PDF au contact facturation du client ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                        <button type="button" id="confirmSendRecapBtn" class="btn btn-primary">Confirmer et envoyer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            (function(){
+                                const btn = document.getElementById('confirmSendRecapBtn');
+                                if(btn){
+                                    btn.addEventListener('click', function(){
+                                        // submit the form
+                                        document.getElementById('send-recap-form').submit();
+                                    });
+                                }
+                            })();
+                        </script>
+                        </form>
+                </div>
 
         <div class="mt-4">
             {{ include('projet/_delete_form.html.twig') }}

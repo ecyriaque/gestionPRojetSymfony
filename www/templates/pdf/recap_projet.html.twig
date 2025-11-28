@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Récapitulatif projet</title>
+    <style>
+        body { font-family: DejaVu Sans, Arial, Helvetica, sans-serif; font-size: 12px; color:#222; margin:20px }
+        .header { display:flex; align-items:center; margin-bottom:20px }
+        .logo { width:120px }
+        .meta { margin-left:20px }
+        table { width:100%; border-collapse: collapse; margin-top:10px }
+        table th, table td { border:1px solid #ddd; padding:6px }
+        .text-right { text-align: right }
+        .section-title { background:#f5f5f5; padding:6px; margin-top:12px; font-weight:600 }
+        footer { margin-top:20px; font-size:11px; color:#666 }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    {% if logo %}
+        <img src="{{ logo }}" alt="logo" class="logo" />
+    {% endif %}
+    <div class="meta">
+        <h2 style="margin:0 0 6px 0">Récapitulatif projet</h2>
+        <div><strong>Projet :</strong> {{ projet.nom }}</div>
+        <div><strong>Client :</strong> {{ client.nom ?? '—' }}</div>
+        <div><strong>Date :</strong> {{ "now"|date('d/m/Y') }}</div>
+    </div>
+</div>
+
+{% for item in sessions %}
+    <div class="section-title">Session: {{ item.session.getDatedebut ? item.session.getDatedebut|date('d/m/Y') : '—' }} — {{ item.session.getDatefin ? item.session.getDatefin|date('d/m/Y') : '—' }}</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Organisme</th>
+                <th>Date</th>
+                <th class="text-right">Coût HT</th>
+                <th class="text-right">TVA (%)</th>
+                <th class="text-right">Montant TVA</th>
+                <th class="text-right">TTC</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for frow in item.formations %}
+                {% set f = frow.entity %}
+                <tr>
+                    <td>{{ f.organisme }}</td>
+                    <td>{{ f.dateformation ? f.dateformation|date('d/m/Y') : '—' }}</td>
+                    <td class="text-right">{{ frow.ht is defined ? (frow.ht|number_format(2, ',', ' ')) : '0,00' }}</td>
+                    <td class="text-right">{{ frow.tvaPct is defined ? (frow.tvaPct|number_format(2, ',', ' ')) : '0,00' }}</td>
+                    <td class="text-right">{{ frow.tvaAmount is defined ? (frow.tvaAmount|number_format(2, ',', ' ')) : '0,00' }}</td>
+                    <td class="text-right">{{ frow.ttc is defined ? (frow.ttc|number_format(2, ',', ' ')) : '0,00' }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="6">Aucune formation pour cette session.</td></tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="2">Sous-total session (HT)</th>
+                <th class="text-right">{{ item.subtotal_ht|number_format(2, ',', ' ') }}</th>
+                <th></th>
+                <th class="text-right">{{ item.subtotal_tva|number_format(2, ',', ' ') }}</th>
+                <th class="text-right">{{ item.subtotal_ttc|number_format(2, ',', ' ') }}</th>
+            </tr>
+        </tfoot>
+    </table>
+{% endfor %}
+
+<div style="margin-top:12px; text-align:right; font-weight:600;">
+    Total projet (HT) : {{ grandTotalHT|number_format(2, ',', ' ') }}<br />
+    Total TVA : {{ grandTotalTVA|number_format(2, ',', ' ') }}<br />
+    Total projet (TTC) : {{ grandTotalTTC|number_format(2, ',', ' ') }}
+</div>
+
+<footer>
+    <div>© {{ "now"|date('Y') }} Gestion Budget Formation. Tous droits réservés.</div>
+</footer>
+
+</body>
+</html>

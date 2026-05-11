@@ -24,9 +24,10 @@ when@dev:
         channels: ["!event", "!doctrine", "!console"]
       logstash:
         type: socket
-        connection_string: "tcp://logstash:5000"
+        connection_string: "tcp://logstash:5044"
         formatter: monolog.formatter.json
         level: info
+        ignore_error: true
         #channels: ['elk']
 
 when@test:
@@ -68,7 +69,8 @@ when@prod:
         formatter: monolog.formatter.json
       logstash:
         type: socket
-        connection_string: "tcp://logstash:5000"
+        connection_string: "tcp://logstash:5044"
         formatter: monolog.formatter.json
         level: info
+        ignore_error: true
         #channels: ['elk']

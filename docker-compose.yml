@@ -112,7 +112,7 @@ services:
     links:
       - elasticsearch
     ports:
-      - "5000:5000"
+      - "5044:5044"
     volumes:
       - ${LOGSTASH_CONFIG_DIR:-./config/logstash}:/usr/share/logstash/pipeline:ro
     depends_on:

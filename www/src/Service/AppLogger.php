@@ -46,33 +46,37 @@ class AppLogger
             'timestamp' => new \DateTime()
         ]);
 
-        switch ($level) {
-            case 'debug':
-                $this->logger->debug($message, $enrichedContext);
-                break;
-            case 'info':
-                $this->logger->info($message, $enrichedContext);
-                break;
-            case 'notice':
-                $this->logger->notice($message, $enrichedContext);
-                break;
-            case 'warning':
-                $this->logger->warning($message, $enrichedContext);
-                break;
-            case 'error':
-                $this->logger->error($message, $enrichedContext);
-                break;
-            case 'critical':
-                $this->logger->critical($message, $enrichedContext);
-                break;
-            case 'alert':
-                $this->logger->alert($message, $enrichedContext);
-                break;
-            case 'emergency':
-                $this->logger->emergency($message, $enrichedContext);
-                break;
-            default:
-                $this->logger->info($message, $enrichedContext);
+        try {
+            switch ($level) {
+                case 'debug':
+                    $this->logger->debug($message, $enrichedContext);
+                    break;
+                case 'info':
+                    $this->logger->info($message, $enrichedContext);
+                    break;
+                case 'notice':
+                    $this->logger->notice($message, $enrichedContext);
+                    break;
+                case 'warning':
+                    $this->logger->warning($message, $enrichedContext);
+                    break;
+                case 'error':
+                    $this->logger->error($message, $enrichedContext);
+                    break;
+                case 'critical':
+                    $this->logger->critical($message, $enrichedContext);
+                    break;
+                case 'alert':
+                    $this->logger->alert($message, $enrichedContext);
+                    break;
+                case 'emergency':
+                    $this->logger->emergency($message, $enrichedContext);
+                    break;
+                default:
+                    $this->logger->info($message, $enrichedContext);
+            }
+        } catch (\Throwable) {
+            
         }
     }
 

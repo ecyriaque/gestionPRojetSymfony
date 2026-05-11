@@ -30,6 +30,10 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       HOST_MACHINE_MYSQL_PORT: ${HOST_MACHINE_MYSQL_PORT}
       XDEBUG_CONFIG: "client_host=host.docker.internal remote_port=${XDEBUG_PORT}"
+      SWAGGER_USERNAME: ${SWAGGER_USERNAME:-swagger_admin}
+      SWAGGER_PASSWORD: ${SWAGGER_PASSWORD:-changeme_in_prod}
+      API_ALLOWED_IPS: ${API_ALLOWED_IPS:-}
+      SWAGGER_ALLOWED_CIDRS: ${SWAGGER_ALLOWED_CIDRS:-}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:

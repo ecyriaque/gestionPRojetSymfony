@@ -2,17 +2,39 @@ security:
   password_hashers:
     App\Entity\Utilisateur:
       algorithm: bcrypt
+    Symfony\Component\Security\Core\User\InMemoryUser:
+      algorithm: plaintext
 
   providers:
     app_user_provider:
       entity:
         class: App\Entity\Utilisateur
-        property: email # Le champ pour rechercher l'utilisateur
+        property: email
+    swagger_users:
+      memory:
+        users:
+          "%env(SWAGGER_USERNAME)%":
+            password: "%env(SWAGGER_PASSWORD)%"
+            roles: [ROLE_SWAGGER]
 
   firewalls:
+    swagger:
+      pattern: ^/api/doc
+      stateless: true
+      provider: swagger_users
+      http_basic:
+        realm: "API Documentation — Accès restreint"
+
+    api:
+      pattern: ^/api/
+      stateless: true
+      custom_authenticators:
+        - App\Security\ApiKeyAuthenticator
+
     main:
       pattern: ^/
       lazy: true
+      provider: app_user_provider
       form_login:
         login_path: login
         check_path: login
@@ -24,12 +46,13 @@ security:
       stateless: false
 
   access_control:
-    # Process these specific routes first
+    - { path: ^/api/doc, roles: ROLE_SWAGGER }
+
+    - { path: ^/api/, roles: ROLE_API }
+
     - { path: ^/login$, roles: PUBLIC_ACCESS }
     - { path: ^/logout$, roles: PUBLIC_ACCESS }
     - { path: ^/inscription$, roles: PUBLIC_ACCESS }
-    # Then process admin routes
     - { path: ^/admin, roles: ROLE_ADMIN }
     - { path: ^/utilisateur, roles: ROLE_ADMIN }
-    # Finally the catch-all rule
     - { path: ^/, roles: [ROLE_GESTIONNAIRE, ROLE_ADMIN] }

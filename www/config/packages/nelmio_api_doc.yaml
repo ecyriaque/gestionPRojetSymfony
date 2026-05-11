@@ -1,0 +1,22 @@
+nelmio_api_doc:
+  documentation:
+    info:
+      title: "API Gestion Projets Formation"
+      description: |
+        API permettant à des applications tierces d'accéder aux données financières des projets
+        et de créer des appels de fonds.
+
+        **Authentification :** Toutes les requêtes doivent inclure le header `X-API-Key`.
+      version: "1.0.0"
+    components:
+      securitySchemes:
+        ApiKeyAuth:
+          type: apiKey
+          in: header
+          name: X-API-Key
+    security:
+      - ApiKeyAuth: []
+
+  areas:
+    path_patterns:
+      - ^/api/v1

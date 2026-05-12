@@ -4,6 +4,10 @@ framework:
     annotations: false
     http_method_override: false
     handle_all_throwables: true
+    # cloudflared (Cloudflare Tunnel) tourne dans le réseau Docker interne et forward l'IP réelle
+    # via X-Forwarded-For. La valeur est injectée par docker-compose (plages Docker privées par défaut).
+    trusted_proxies: '%env(default::TRUSTED_PROXIES)%'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port']
 
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.

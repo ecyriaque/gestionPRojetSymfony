@@ -1,15 +1,30 @@
 version: "3"
 
 services:
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: "${COMPOSE_PROJECT_NAME}-cloudflared"
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      # Token généré dans Cloudflare Zero Trust > Tunnels > Create a tunnel
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - webserver
+    networks:
+      - default
+
   webserver:
     user: "${UID-0}:${GID-0}"
     build:
       context: ./bin/${PHPVERSION}
     container_name: "${COMPOSE_PROJECT_NAME}-${PHPVERSION}"
     restart: "on-failure"
+    # En dev : ports exposés sur localhost pour accès direct
+    # En prod : cloudflared accède au webserver via le réseau Docker interne (pas besoin d'exposer les ports)
     ports:
-      - "${HOST_MACHINE_UNSECURE_APACHE_PORT}:80"
-      - "${HOST_MACHINE_SECURE_APACHE_PORT}:443"
+      - "${HOST_MACHINE_UNSECURE_APACHE_PORT:-127.0.0.1:80}:80"
+      - "${HOST_MACHINE_SECURE_APACHE_PORT:-127.0.0.1:443}:443"
     links:
       - database
       - mailhog
@@ -30,8 +45,14 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       HOST_MACHINE_MYSQL_PORT: ${HOST_MACHINE_MYSQL_PORT}
       XDEBUG_CONFIG: "client_host=host.docker.internal remote_port=${XDEBUG_PORT}"
-      SWAGGER_USERNAME: ${SWAGGER_USERNAME:-swagger_admin}
-      SWAGGER_PASSWORD: ${SWAGGER_PASSWORD:-changeme_in_prod}
+      APP_ENV: ${APP_ENV:-dev}
+      APP_SECRET: ${APP_SECRET}
+      # Plages privées Docker par défaut — couvre tous les réseaux Docker Compose
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES:-172.16.0.0/12,10.0.0.0/8,192.168.0.0/16}
+      DATABASE_URL: ${DATABASE_URL}
+      MAILER_DSN: ${MAILER_DSN:-smtp://host.docker.internal:1025}
+      SWAGGER_USERNAME: ${SWAGGER_USERNAME}
+      SWAGGER_PASSWORD: ${SWAGGER_PASSWORD}
       API_ALLOWED_IPS: ${API_ALLOWED_IPS:-}
       SWAGGER_ALLOWED_CIDRS: ${SWAGGER_ALLOWED_CIDRS:-}
     extra_hosts:
